@@ -10,7 +10,6 @@ const createStore = () => {
     mutations: {
       updateAlbumsData(state, payload) {
         state.albumsList = payload;
-        console.log(state.albumsList);
       }
     },
     actions: {
@@ -19,7 +18,6 @@ const createStore = () => {
         try {
           Album.getAlbumData().then(function (response) {
             commit('updateAlbumsData', response.data.feed.entry);
-            console.dir(response.data.feed.entry)
           })
         } catch (err) {
           console.log(err);

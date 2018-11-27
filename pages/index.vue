@@ -2,6 +2,7 @@
   <v-layout class="mt-3" column justify-center align-center>
 
     <v-card>
+      <transition-group name="fade">
       <v-container fluid grid-list-lg v-for="(album, index) in albumsList" :key="index">
         <v-layout row wrap>
 
@@ -26,7 +27,7 @@
               <v-card-actions class="pa-3">
                 Price: {{album["im:price"].label}}  
                 <v-spacer></v-spacer> 
-                <span class="mr-3">Rate album:</span>
+                <span class="mr-2">Rate album:</span>
                 <v-icon>star_border</v-icon>
                 <v-icon>star_border</v-icon>
                 <v-icon>star_border</v-icon>
@@ -38,6 +39,7 @@
 
         </v-layout>
       </v-container>
+      </transition-group>
     </v-card>
 
 
@@ -62,3 +64,11 @@
     }
   }
 </script>
+<style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>
