@@ -1,8 +1,4 @@
 import Vuex from 'vuex'
-import {
-  config
-} from '../middleware/config'
-import Axios from 'axios';
 
 const createStore = () => {
   return new Vuex.Store({
@@ -30,8 +26,7 @@ const createStore = () => {
       updateSearchTerm(state, payload) {
         state.searchTerm = payload;
       }
-    },
-    actions: {}
+    }
   })
 }
 

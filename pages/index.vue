@@ -4,7 +4,6 @@
       <transition-group name="fade">
       <v-container fluid grid-list-lg v-for="(album, index) in albumsData" :key="index">
         <v-layout row wrap>
-
           <v-flex xs12 >
             <v-card color="amber darken-4" class="white--text">
               <v-layout row>
@@ -35,7 +34,6 @@
               </v-card-actions>
             </v-card>
           </v-flex>
-
         </v-layout>
       </v-container>
       </transition-group>
@@ -49,7 +47,6 @@
   import axios from 'axios'
   import {config} from '../middleware/config'
   export default {
-
   async fetch ({ store, params }) {
     let response = await axios.get(`${config.development.API_URL}topalbums/limit=100/json`)
     store.commit('updateAlbumsData', response.data.feed.entry)
@@ -61,6 +58,7 @@
     }
   }
 </script>
+
 <style>
 
 .app__card {
@@ -77,7 +75,9 @@
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
+
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
+
 </style>
