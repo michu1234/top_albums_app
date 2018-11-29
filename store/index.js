@@ -1,31 +1,37 @@
 import Vuex from 'vuex'
-import Album from '../middleware/api'
+import {
+  config
+} from '../middleware/config'
 import Axios from 'axios';
 
 const createStore = () => {
   return new Vuex.Store({
     state: () => ({
-      albumsList: []
+      albumsFullData: [],
+      searchTerm: ''
     }),
-    mutations: {
-      updateAlbumsData(state, payload) {
-        state.albumsList = payload;
+    getters: {
+      albumsData(state) {
+        let currentState = [];
+        state.albumsFullData.forEach((d) => {
+          if (d.title.label.toLowerCase().includes(state.searchTerm)) {
+            currentState.push(d)
+          } else {
+            return state.albumsFullData;
+          }
+        });
+        return currentState;
       }
     },
-    actions: {
-      getAlbumsData({commit}) {
-
-        try {
-          Album.getAlbumData().then(function (response) {
-            commit('updateAlbumsData', response.data.feed.entry);
-          })
-        } catch (err) {
-          console.log(err);
-        }
-
-
+    mutations: {
+      updateAlbumsData(state, payload) {
+        state.albumsFullData = payload;
+      },
+      updateSearchTerm(state, payload) {
+        state.searchTerm = payload;
       }
-    }
+    },
+    actions: {}
   })
 }
 

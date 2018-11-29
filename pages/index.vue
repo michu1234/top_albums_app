@@ -1,9 +1,8 @@
 <template>
-  <v-layout class="mt-3" column justify-center align-center>
-
-    <v-card>
+  <v-layout class="mt-3 pb-5" column justify-center align-center>
+    <v-card class="app__card">
       <transition-group name="fade">
-      <v-container fluid grid-list-lg v-for="(album, index) in albumsList" :key="index">
+      <v-container fluid grid-list-lg v-for="(album, index) in albumsData" :key="index">
         <v-layout row wrap>
 
           <v-flex xs12 >
@@ -42,33 +41,43 @@
       </transition-group>
     </v-card>
 
-
-
-
-
   </v-layout>
 </template>
 
 <script>
-  import {mapState, mapActions} from 'vuex'
-
+  import {mapState, mapGetters} from 'vuex'
+  import axios from 'axios'
+  import {config} from '../middleware/config'
   export default {
-   async fetch ({ store, params }) {
-   await store.dispatch('getAlbumsData');
+
+  async fetch ({ store, params }) {
+    let response = await axios.get(`${config.development.API_URL}topalbums/limit=100/json`)
+    store.commit('updateAlbumsData', response.data.feed.entry)
   },
     computed: {
-      ...mapState([
-        'albumsList',
-        'test'
+      ...mapGetters([
+        'albumsData'
       ])
     }
   }
 </script>
 <style>
+
+.app__card {
+  width: 100%;
+}
+
+@media screen and (min-width: 455px) {
+  .app__card {
+  width: 98%;
+  max-width: 1000px;
+}
+}
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 </style>

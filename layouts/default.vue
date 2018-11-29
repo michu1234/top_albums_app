@@ -4,7 +4,7 @@
       <v-toolbar-side-icon></v-toolbar-side-icon>
       <v-toolbar-title>TOP 100 Albums</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-text-field class="ml-2" style="max-width: 300px" v-if="showSearchBar" v-model="name" label="Search..."
+      <v-text-field class="ml-2" style="max-width: 300px" v-if="showSearchBar" v-model.lazy="name" label="Search..."
         required></v-text-field>
       <v-btn icon>
         <v-icon @click.native="showSearchInput">search</v-icon>
@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex';
+
   export default {
     data() {
       return {
@@ -23,10 +25,18 @@
         name: ''
       }
     },
+    watch: {
+      name() {
+        this.updateSearchTerm(this.name);
+      }
+    },
     methods: {
       showSearchInput() {
         this.showSearchBar = !this.showSearchBar;
-      }
+      },
+      ...mapMutations([
+      'updateSearchTerm'
+    ])
     }
   }
 </script>
